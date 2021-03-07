@@ -2,22 +2,27 @@ const express = require('express')
 const app = express()
 
 const pokemons = [
-    'Charizard',
-    'Pikachu',
-    'Piteco',
-    'Squirtle',
+    'charizard',
+    'pikachu',
+    'piteco',
+    'squirtle',
 ];
 
 //Listar Pokemons no Brownser
 app.get('/pokemons', (req, res) => {
-    const { pokemon } = req.query;
-    let listaRetorno = pokemons.filter(i => i.includes( pokemon || ''))
-    return res.send(listaRetorno)
+    return res.send(pokemons)
  });
 
+ //Listar Pokemon Escolhido dentro do Array
  app.get('/pokemons/:pokemon', (req, res) => {
-    const { pokemon } = req.params
-    res.send(`Vai ${pokemon.toLocaleUpperCase()} eu escolho você!`)
+    const { pokemon } = req.params;
+    if (pokemons.indexOf(pokemon) > -1){
+        let listaRetorno = pokemons.filter(i => i.includes( pokemon || ''))
+        res.send(`Vai ${listaRetorno} eu escolho você!`)
+    }else{
+        res.send('Você não tem esse Pokemon!')
+    };
+  
 });
 
 app.listen(3000, () => {
