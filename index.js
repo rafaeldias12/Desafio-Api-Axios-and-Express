@@ -1,4 +1,3 @@
-const axios = require('axios');
 const express = require('express')
 const app = express()
 
@@ -8,22 +7,19 @@ const pokemons = [
     'Piteco',
     'Squirtle',
 ];
-//Lsitar Pokemons no Brownser
-app.get('/pokemon', (req, res) => {
-    const { nome } = req.query;
-    let listaRetorno = pokemons.filter(i => i.includes(nome || ''))
-    return res.json(listaRetorno)
+
+//Listar Pokemons no Brownser
+app.get('/pokemons', (req, res) => {
+    const { pokemon } = req.query;
+    let listaRetorno = pokemons.filter(i => i.includes( pokemon || ''))
+    return res.send(listaRetorno)
  });
 
-//Consumindo API com Axios
-app.get('/pokemons', (req, res) => {
-    let arrayPokemon = [];
-    axios.get('https://pokeapi.co/api/v2/pokemon?offset=100&limit=5').then((respo) => {
-        arrayPokemon = respo.data
-        return res.send(arrayPokemon)
-    });
- });
- 
+ app.get('/pokemons/:pokemon', (req, res) => {
+    const { pokemon } = req.params
+    res.send(`Vai ${pokemon.toLocaleUpperCase()} eu escolho você!`)
+});
+
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000')
 });
